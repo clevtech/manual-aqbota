@@ -53,7 +53,7 @@ def check_handler():
             stop()
 
 
-def client_handler(sock: socket.socket) -> None:
+def client_handler(sock: socket.socket, shit: int) -> None:
     while True:
         try:
             global last_command
@@ -95,11 +95,11 @@ def main(host: str = '::', port: int = 7777) -> None:
     # print("Starting TCP Echo Server at {host}:{port}")
     try:
         while True:
-            clientsocket, client = serversocket.accept()
-            logging.debug("New client: {client}")
+            clientsocket, shit = serversocket.accept()
+            logging.debug("New client")
             client_thread = threading.Thread(
                 target=client_handler,
-                args=(clientsocket))
+                args=(clientsocket, 6))
             client_thread.daemon = True
             client_thread.start()
     except KeyboardInterrupt:
