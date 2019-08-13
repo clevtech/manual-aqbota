@@ -6,7 +6,7 @@ import socket
 import logging
 import time
 
-IP = "localhost"
+IP = "192.168.1.149"
 port = 7777
 
 

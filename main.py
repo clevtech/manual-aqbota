@@ -3,13 +3,13 @@ import threading
 import logging
 import datetime
 import time
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setwarnings(False)
-pins = [18,17,15,14]
-# GPIO.setup(pins, GPIO.OUT)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+pins = [20,21,19,26,23,24]
+GPIO.setup(pins, GPIO.OUT)
 
 lock = threading.Lock()
 last_command = datetime.datetime.now()
@@ -25,12 +25,28 @@ logging.basicConfig(
 def move(dir):
     if dir == "w":
         logging.debug("Moving forward")
+        GPIO.output(20,  GPIO.HIGH)
+        GPIO.output(21,  GPIO.LOW)
+        GPIO.output(19,  GPIO.HIGH)
+        GPIO.output(26,  GPIO.LOW)
     elif dir == "s":
         logging.debug("Moving backward")
+        GPIO.output(21,  GPIO.HIGH)
+        GPIO.output(20,  GPIO.LOW)
+        GPIO.output(26,  GPIO.HIGH)
+        GPIO.output(19,  GPIO.LOW)
     elif dir == "d":
         logging.debug("Turning right")
+        GPIO.output(20,  GPIO.HIGH)
+        GPIO.output(21,  GPIO.LOW)
+        GPIO.output(19,  GPIO.HIGH)
+        GPIO.output(26,  GPIO.LOW)
     elif dir == "a":
         logging.debug("Turning left")
+        GPIO.output(21,  GPIO.HIGH)
+        GPIO.output(20,  GPIO.LOW)
+        GPIO.output(26,  GPIO.HIGH)
+        GPIO.output(19,  GPIO.LOW)
     elif dir == "o":
         logging.debug("Open door")
     elif dir == "l":
@@ -41,6 +57,10 @@ def move(dir):
 
 def stop():
     logging.debug("Stopping all motors")
+    GPIO.output(21,  GPIO.LOW)
+    GPIO.output(20,  GPIO.LOW)
+    GPIO.output(26,  GPIO.LOW)
+    GPIO.output(19,  GPIO.LOW)
 
 
 def check_handler():
