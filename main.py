@@ -25,28 +25,28 @@ logging.basicConfig(
 def move(dir):
     if dir == "w":
         logging.debug("Moving forward")
-        GPIO.output(20,  GPIO.HIGH)
-        GPIO.output(21,  GPIO.LOW)
-        GPIO.output(19,  GPIO.HIGH)
-        GPIO.output(26,  GPIO.LOW)
-    elif dir == "s":
-        logging.debug("Moving backward")
         GPIO.output(21,  GPIO.HIGH)
         GPIO.output(20,  GPIO.LOW)
         GPIO.output(26,  GPIO.HIGH)
         GPIO.output(19,  GPIO.LOW)
-    elif dir == "d":
-        logging.debug("Turning right")
+    elif dir == "s":
+        logging.debug("Moving backward")
         GPIO.output(20,  GPIO.HIGH)
         GPIO.output(21,  GPIO.LOW)
         GPIO.output(19,  GPIO.HIGH)
         GPIO.output(26,  GPIO.LOW)
+    elif dir == "d":
+        logging.debug("Turning right")
+        GPIO.output(26,  GPIO.HIGH)
+        GPIO.output(19,  GPIO.LOW)
+        GPIO.output(20,  GPIO.HIGH)
+        GPIO.output(21,  GPIO.LOW)
     elif dir == "a":
         logging.debug("Turning left")
         GPIO.output(21,  GPIO.HIGH)
         GPIO.output(20,  GPIO.LOW)
-        GPIO.output(26,  GPIO.HIGH)
-        GPIO.output(19,  GPIO.LOW)
+        GPIO.output(19,  GPIO.HIGH)
+        GPIO.output(26,  GPIO.LOW)
     elif dir == "o":
         logging.debug("Open door")
     elif dir == "l":
