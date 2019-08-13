@@ -24,27 +24,27 @@ logging.basicConfig(
 
 def move(dir):
     if dir == "w":
-        logging.debug(f"Moving forward")
+        logging.debug("Moving forward")
     elif dir == "s":
-        logging.debug(f"Moving backward")
+        logging.debug("Moving backward")
     elif dir == "d":
-        logging.debug(f"Turning right")
+        logging.debug("Turning right")
     elif dir == "a":
-        logging.debug(f"Turning left")
+        logging.debug("Turning left")
     elif dir == "o":
-        logging.debug(f"Open door")
+        logging.debug("Open door")
     elif dir == "l":
-        logging.debug(f"Light up")
+        logging.debug("Light up")
     elif dir == "k":
-        logging.debug(f"Light down")
+        logging.debug("Light down")
 
 
 def stop():
-    logging.debug(f"Stopping all motors")
+    logging.debug("Stopping all motors")
 
 
 def check_handler():
-    logging.debug(f"Checker thread started")
+    logging.debug("Checker thread started")
     while True:
         time.sleep(0.1)
         now = datetime.datetime.now()
@@ -58,12 +58,12 @@ def client_handler(sock: socket.socket, address: str, port: int) -> None:
         try:
             global last_command
             message = sock.recv(1024)
-            # logging.debug(f"Recv: {message} from {address}:{port}")
+            # logging.debug("Recv: {message} from {address}:{port}")
             lock.acquire()
             last_command = datetime.datetime.now()
             lock.release()
             move(message.decode("utf-8").strip("\n"))
-            # logging.debug(f"Changed last command")
+            # logging.debug("Changed last command")
         except OSError:
             break
 
@@ -76,9 +76,9 @@ def client_handler(sock: socket.socket, address: str, port: int) -> None:
         #     if sent_len == len(sent_message):
         #         break
         #     sent_message = sent_message[sent_len:]
-        # logging.debug(f"Send: {message} to {address}:{port}")
+        # logging.debug("Send: {message} to {address}:{port}")
     sock.close()
-    logging.debug(f"Bye-bye: {address}:{port}")
+    logging.debug("Bye-bye: {address}:{port}")
 
 
 def main(host: str = '::', port: int = 7777) -> None:
@@ -92,11 +92,11 @@ def main(host: str = '::', port: int = 7777) -> None:
     checker_thread.daemon = True
     checker_thread.start()
 
-    print(f"Starting TCP Echo Server at {host}:{port}")
+    # print("Starting TCP Echo Server at {host}:{port}")
     try:
         while True:
             clientsocket, (client_address, client_port) = serversocket.accept()
-            logging.debug(f"New client: {client_address}:{client_port}")
+            logging.debug("New client: {client_address}:{client_port}")
             client_thread = threading.Thread(
                 target=client_handler,
                 args=(clientsocket, client_address, client_port))
