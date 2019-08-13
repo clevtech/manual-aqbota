@@ -82,7 +82,7 @@ def client_handler(sock: socket.socket, address: str, port: int) -> None:
 
 
 def main(host: str = '::', port: int = 7777) -> None:
-    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serversocket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
     serversocket.bind((host, port))
     serversocket.listen(128)
