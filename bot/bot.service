@@ -1,0 +1,11 @@
+[Unit]
+Description=main tlg bot
+[Install]
+WantedBy=multi-user.target
+[Service]
+User=aqbotakazpost
+PermissionsStartOnly=true
+ExecStart=/home/aqbotakazpost/manual-aqbota/bot/main.py
+TimeoutSec=60
+Restart=on-failure
+RuntimeDirectoryMode=755

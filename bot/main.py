@@ -1,12 +1,9 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, KeyboardButton, ReplyKeyboardMarkup
-from pprint import pprint
 import requests
 import xml.dom.minidom
 import datetime
-from pprint import pprint
 import re
-from pymongo import MongoClient
 from random import sample
 import socket
 import json
