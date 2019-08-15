@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+__author__ = "Bauyrzhan Ospan"
+__copyright__ = "Copyright 2018, Aqbota"
+__version__ = "1.0.1"
+__maintainer__ = "Bauyrzhan Ospan"
+__email__ = "bospan@cleverest.tech"
+__status__ = "Development"
+
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, KeyboardButton, ReplyKeyboardMarkup
 import requests
