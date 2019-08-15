@@ -10,6 +10,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 pins = [20,21,19,26,23,24]
 GPIO.setup(pins, GPIO.OUT)
+stop()
 
 lock = threading.Lock()
 last_command = datetime.datetime.now()

@@ -1,0 +1,16 @@
+1. Save number
+2. Save user
+3. Check payload
+4. Open robot
+5. Go to point A
+6. Send robot
+7. Send notification
+8. Robot came to point
+9. Send notification
+10. User press button Open
+11. Open robot
+12. Go home
+13. Send notification to employee
+14. Go home point
+15. If payload - open robot
+16. Go to idle
