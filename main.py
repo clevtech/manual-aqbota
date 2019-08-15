@@ -5,6 +5,13 @@ import datetime
 import time
 import RPi.GPIO as GPIO
 
+def stop():
+    logging.debug("Stopping all motors")
+    GPIO.output(21,  GPIO.LOW)
+    GPIO.output(20,  GPIO.LOW)
+    GPIO.output(26,  GPIO.LOW)
+    GPIO.output(19,  GPIO.LOW)
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -54,14 +61,6 @@ def move(dir):
         logging.debug("Light up")
     elif dir == "k":
         logging.debug("Light down")
-
-
-def stop():
-    logging.debug("Stopping all motors")
-    GPIO.output(21,  GPIO.LOW)
-    GPIO.output(20,  GPIO.LOW)
-    GPIO.output(26,  GPIO.LOW)
-    GPIO.output(19,  GPIO.LOW)
 
 
 def check_handler():
