@@ -11,6 +11,8 @@ def stop():
     GPIO.output(20,  GPIO.LOW)
     GPIO.output(26,  GPIO.LOW)
     GPIO.output(19,  GPIO.LOW)
+    GPIO.output(23,  GPIO.LOW)
+    GPIO.output(24,  GPIO.LOW)
 
 
 GPIO.setmode(GPIO.BCM)
@@ -43,13 +45,13 @@ def move(dir):
         GPIO.output(21,  GPIO.LOW)
         GPIO.output(19,  GPIO.HIGH)
         GPIO.output(26,  GPIO.LOW)
-    elif dir == "d":
+    elif dir == "a":
         logging.debug("Turning right")
         GPIO.output(26,  GPIO.HIGH)
         GPIO.output(19,  GPIO.LOW)
         GPIO.output(20,  GPIO.HIGH)
         GPIO.output(21,  GPIO.LOW)
-    elif dir == "a":
+    elif dir == "d":
         logging.debug("Turning left")
         GPIO.output(21,  GPIO.HIGH)
         GPIO.output(20,  GPIO.LOW)
