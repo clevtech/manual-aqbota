@@ -1,3 +1,6 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+
 from flask import Flask, render_template, Response, jsonify
 import cv2
 import socket

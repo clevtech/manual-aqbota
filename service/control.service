@@ -1,0 +1,11 @@
+[Unit]
+Description=Flask web server
+[Install]
+WantedBy=multi-user.target
+[Service]
+User=naboo
+PermissionsStartOnly=true
+ExecStart=/home/naboo/manual-aqbota/main.py
+TimeoutSec=10
+Restart=on-failure
+RuntimeDirectoryMode=755
