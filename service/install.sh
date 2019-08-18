@@ -1,8 +1,8 @@
 #!/bin/bash
-echo "Enter password please:"
-sudo -s
 cp ./flask.conf /etc/init/flask.conf
+echo "Copied flask.conf"
 cp ./control.conf /etc/init/control.conf
+echo "Copied control.conf"
 cp ./flask.service /lib/systemd/system/flask.service
 cp ./control.service /lib/systemd/system/control.service
 echo "Added all files"
