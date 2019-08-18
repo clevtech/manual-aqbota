@@ -16,7 +16,7 @@ class VideoCamera(object):
         if success:
             ret, jpeg = cv2.imencode('.jpg', image)
         else:
-            jpeg = None
+            jpeg = "none"
         return jpeg.tobytes()
 
 app = Flask(__name__)
