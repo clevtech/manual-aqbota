@@ -6,7 +6,7 @@ import time
 import RPi.GPIO as GPIO
 
 def stop():
-    logging.debug("Stopping all motors")
+    logging.info("Stopping all motors")
     GPIO.output(pins, GPIO.LOW)
 
 
@@ -23,51 +23,51 @@ pause = 400000
 
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.debug,
     format='[%(asctime)-15s]:(%(threadName)-10s) %(message)s'
 )
 
 
 def move(dir):
     if dir == "w":
-        logging.debug("Moving forward")
+        logging.info("Moving forward")
         GPIO.output(17, GPIO.HIGH)
         GPIO.output(27, GPIO.LOW)
         GPIO.output(19, GPIO.HIGH)
         GPIO.output(26, GPIO.LOW)
     elif dir == "s":
-        logging.debug("Moving backward")
+        logging.info("Moving backward")
         GPIO.output(27, GPIO.HIGH)
         GPIO.output(17, GPIO.LOW)
         GPIO.output(26, GPIO.HIGH)
         GPIO.output(19, GPIO.LOW)
     elif dir == "d":
-        logging.debug("Turning right")
+        logging.info("Turning right")
         GPIO.output(19, GPIO.HIGH)
         GPIO.output(26, GPIO.LOW)
         GPIO.output(27, GPIO.HIGH)
         GPIO.output(17, GPIO.LOW)
     elif dir == "a":
-        logging.debug("Turning left")
+        logging.info("Turning left")
         GPIO.output(17, GPIO.HIGH)
         GPIO.output(27, GPIO.LOW)
         GPIO.output(26, GPIO.HIGH)
         GPIO.output(19, GPIO.LOW)
     elif dir == "o":
-        logging.debug("Open door")
+        logging.info("Open door")
         GPIO.output(24, GPIO.HIGH)
-        time.sleep(0.5)
+        time.sleep(1)
         GPIO.output(24, GPIO.LOW)
     elif dir == "k":
         stop()
     # elif dir == "l":
-    # logging.debug("Light up")
+    # logging.info("Light up")
     # elif dir == "k":
-    # logging.debug("Light down")
+    # logging.info("Light down")
 
 
 def check_handler():
-    logging.debug("Checker thread started")
+    logging.info("Checker thread started")
     while True:
         time.sleep(0.1)
         now = datetime.datetime.now()
@@ -81,12 +81,12 @@ def client_handler(sock: socket.socket, shit: int) -> None:
         try:
             global last_command
             message = sock.recv(1024)
-            # logging.debug("Recv: {message} from {address}:{port}")
+            # logging.info("Recv: {message} from {address}:{port}")
             lock.acquire()
             last_command = datetime.datetime.now()
             lock.release()
             move(message.decode("utf-8").strip("\n"))
-            # logging.debug("Changed last command")
+            # logging.info("Changed last command")
         except OSError:
             break
 
@@ -99,9 +99,9 @@ def client_handler(sock: socket.socket, shit: int) -> None:
         #     if sent_len == len(sent_message):
         #         break
         #     sent_message = sent_message[sent_len:]
-        # logging.debug("Send: {message} to {address}:{port}")
+        # logging.info("Send: {message} to {address}:{port}")
     sock.close()
-    logging.debug("Bye-bye")
+    logging.info("Bye-bye")
 
 
 def main(host: str = '::', port: int = 7777) -> None:
@@ -119,7 +119,7 @@ def main(host: str = '::', port: int = 7777) -> None:
     try:
         while True:
             clientsocket, shit = serversocket.accept()
-            logging.debug("New client")
+            logging.info("New client")
             client_thread = threading.Thread(
                 target=client_handler,
                 args=(clientsocket, 6))
