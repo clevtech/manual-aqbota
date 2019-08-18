@@ -1,5 +1,5 @@
 [Unit]
-Description=Flask web server
+Description=Control service
 [Install]
 WantedBy=multi-user.target
 [Service]
