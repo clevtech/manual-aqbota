@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 from flask import Flask, render_template, Response, jsonify
-import cv2
+import sys
+try:
+    import cv2
+except:
+    sys.path.insert(0, "/opt/ros/kinetic/lib/python2.7/dist-packages/")
 import socket
 import logging
 import time
