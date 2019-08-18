@@ -15,9 +15,11 @@ def stop():
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-pins = [27,17,19,26,23,24]
+pins = [27,17,19,26,23]
 GPIO.setup(pins, GPIO.OUT)
 GPIO.output(pins, GPIO.LOW)
+GPIO.setup([24], GPIO.OUT)
+GPIO.output([24], GPIO.LOW)
 stop()
 
 lock = threading.Lock()
@@ -58,9 +60,9 @@ def move(dir):
         GPIO.output(19, GPIO.LOW)
     elif dir == "o":
         logging.info("Open door")
-        GPIO.output(24, GPIO.HIGH)
-        time.sleep(1)
         GPIO.output(24, GPIO.LOW)
+        time.sleep(1)
+        GPIO.output(24, GPIO.HIGH)
     elif dir == "k":
         stop()
     # elif dir == "l":
