@@ -19,7 +19,7 @@ pins = [27,17,19,26,23]
 GPIO.setup(pins, GPIO.OUT)
 GPIO.output(pins, GPIO.LOW)
 GPIO.setup([24], GPIO.OUT)
-GPIO.output([24], GPIO.LOW)
+GPIO.output([24], GPIO.HIGH)
 stop()
 
 lock = threading.Lock()
