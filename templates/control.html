@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<title>Робот почтальон</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+.button2 {
+    background-color: #004FA8;
+    border-radius: 34px;
+    border: none;
+    color: #FFB800;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 1px 2px;
+    cursor: pointer;
+    font-weight: bold;
+	font-family: "Open Sans", sans-serif;
+    width: 100%;
+    }
+}
+</style>
+<script>
+	var interval;
+    function send(val)
+    {
+        interval = setInterval(function () {
+        var req = new XMLHttpRequest()
+        req.open('POST', '/robot-control/'+val )
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        req.send()
+<!--        return false-->
+            }, 100)
+    }
+    function stop_all()
+    {
+    	clearInterval(interval);
+    	var req = new XMLHttpRequest()
+        req.open('POST', '/robot-control/k' )
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        req.send()
+        return false
+    }
+</script>
+<head>
+</head>
+<body class="w3-theme-l5">
+<!-- Page Container -->
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:20px">
+  <!-- The Grid -->
+  <div class="w3-row">
+    <!-- Middle Column -->
+    <div class="w3-col m12">
+
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card w3-white">
+            <div class="w3-container w3-padding">
+                <table width="100%">
+                  <tr>
+                    <td><input class="button2" type="button" value="" ontouchstart="send('a')" ontouchend="stop_all()"></td>
+                    <td><input class="button2" type="button" value="^" ontouchstart="send('w')" ontouchend="stop_all()"></td>
+                    <td><input class="button2" type="button" value="" ontouchstart="send('d')" ontouchend="stop_all()"></td>
+                  </tr>
+                  <tr>
+                    <td><input class="button2" type="button" value="<" ontouchstart="send('a')" ontouchend="stop_all()"></td>
+                    <td><input class="button2" type="button" value="0" ontouchstart="send('k')" ontouchend="stop_all()"></td>
+                    <td><input class="button2" type="button" value=">" ontouchstart="send('d')" ontouchend="stop_all()"></td>
+                  </tr>
+                  <tr>
+                    <td><input class="button2" type="button" value="" ontouchstart="send('a')" ontouchend="stop_all()"></td>
+                    <td><input class="button2" type="button" value="v" ontouchstart="send('s')" ontouchend="stop_all()"></td>
+                    <td><input class="button2" type="button" value="" ontouchstart="send('d')" ontouchend="stop_all()"></td>
+                  </tr>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+</div>
+</div>
+
+</body>
+
+</html>

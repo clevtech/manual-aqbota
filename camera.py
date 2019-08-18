@@ -1,5 +1,48 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, jsonify
 import cv2
+import socket
+import logging
+import time
+
+IP = "rpi3"
+port = 7777
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='[%(asctime)-15s]: %(message)s'
+)
+
+
+def init_client():
+    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+    server_address = (IP, port)
+    while True:
+        try:    
+            sock.connect(server_address)
+            break
+        except Exception as e:
+            logging.debug('Connection error is: {}'.format(e))
+            sock.close()
+            sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+            logging.debug('No connection to {} port {}'.format(*server_address))
+            time.sleep(2)
+    logging.debug('Connected to {} port {}'.format(*server_address))
+    return sock
+
+def motion(key):
+    global sock
+    try:
+        sock.sendall(key.encode())
+    except:
+        logging.debug("Cannot send data to server, restart client.")
+        try:
+            sock.close()
+            time.sleep(1)
+            sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+            sock.connect(server_address)
+            logging.debug("Connected to server.")
+        except:
+            pass
 
 class VideoCamera(object):
     def __init__(self):
@@ -20,8 +63,22 @@ class VideoCamera(object):
         return jpeg.tobytes()
 
 app = Flask(__name__)
+sock = init_client()
 
 @app.route('/')
+def robcont():
+    global sock
+    sock = init_client()
+    return render_template("control.html")
+
+
+@app.route('/robot-control/<direction>', methods=['POST'])
+def ajax_request(direction):
+    direction = str(direction).replace("\n", '').replace("\r", '').replace("/", "")
+    motion(direction)
+    return jsonify()
+
+@app.route('/video/')
 def index():
     return render_template('index.html')
 
