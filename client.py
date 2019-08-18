@@ -6,7 +6,7 @@ import socket
 import logging
 import time
 
-IP = "192.168.1.149"
+IP = "rpi3"
 port = 7777
 
 
@@ -41,7 +41,7 @@ def getKey():
 
 def main():
     print(msg)
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     server_address = (IP, port)
     while True:
         try:    
@@ -50,7 +50,7 @@ def main():
         except Exception as e:
             logging.debug('Connection error is: {}'.format(e))
             sock.close()
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
             logging.debug('No connection to {} port {}'.format(*server_address))
             time.sleep(2)
     logging.debug('Connected to {} port {}'.format(*server_address))
@@ -67,7 +67,7 @@ def main():
                 try:
                     sock.close()
                     time.sleep(1)
-                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
                     sock.connect(server_address)
                     logging.debug("Connected to server.")
                 except:

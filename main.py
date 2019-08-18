@@ -17,8 +17,9 @@ def stop():
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-pins = [20,21,19,26,23,24]
+pins = [27,17,19,26,23,24]
 GPIO.setup(pins, GPIO.OUT)
+GPIO.output(pins, GPIO.LOW)
 stop()
 
 lock = threading.Lock()
@@ -34,35 +35,38 @@ logging.basicConfig(
 
 def move(dir):
     if dir == "w":
-        logging.debug("Moving forward")
-        GPIO.output(21,  GPIO.HIGH)
-        GPIO.output(20,  GPIO.LOW)
-        GPIO.output(26,  GPIO.HIGH)
-        GPIO.output(19,  GPIO.LOW)
+    logging.debug("Moving forward")
+    GPIO.output(17, GPIO.HIGH)
+    GPIO.output(27, GPIO.LOW)
+    GPIO.output(19, GPIO.HIGH)
+    GPIO.output(26, GPIO.LOW)
     elif dir == "s":
-        logging.debug("Moving backward")
-        GPIO.output(20,  GPIO.HIGH)
-        GPIO.output(21,  GPIO.LOW)
-        GPIO.output(19,  GPIO.HIGH)
-        GPIO.output(26,  GPIO.LOW)
-    elif dir == "a":
-        logging.debug("Turning right")
-        GPIO.output(26,  GPIO.HIGH)
-        GPIO.output(19,  GPIO.LOW)
-        GPIO.output(20,  GPIO.HIGH)
-        GPIO.output(21,  GPIO.LOW)
+    logging.debug("Moving backward")
+    GPIO.output(27, GPIO.HIGH)
+    GPIO.output(17, GPIO.LOW)
+    GPIO.output(26, GPIO.HIGH)
+    GPIO.output(19, GPIO.LOW)
     elif dir == "d":
-        logging.debug("Turning left")
-        GPIO.output(21,  GPIO.HIGH)
-        GPIO.output(20,  GPIO.LOW)
-        GPIO.output(19,  GPIO.HIGH)
-        GPIO.output(26,  GPIO.LOW)
+    logging.debug("Turning right")
+    GPIO.output(19, GPIO.HIGH)
+    GPIO.output(26, GPIO.LOW)
+    GPIO.output(27, GPIO.HIGH)
+    GPIO.output(17, GPIO.LOW)
+    elif dir == "a":
+    logging.debug("Turning left")
+    GPIO.output(17, GPIO.HIGH)
+    GPIO.output(27, GPIO.LOW)
+    GPIO.output(26, GPIO.HIGH)
+    GPIO.output(19, GPIO.LOW)
     elif dir == "o":
-        logging.debug("Open door")
-    elif dir == "l":
-        logging.debug("Light up")
-    elif dir == "k":
-        logging.debug("Light down")
+    logging.debug("Open door")
+    GPIO.output(24, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(24, GPIO.LOW)
+    # elif dir == "l":
+    # logging.debug("Light up")
+    # elif dir == "k":
+    # logging.debug("Light down")
 
 
 def check_handler():
