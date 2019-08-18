@@ -7,12 +7,7 @@ import RPi.GPIO as GPIO
 
 def stop():
     logging.debug("Stopping all motors")
-    GPIO.output(21,  GPIO.LOW)
-    GPIO.output(20,  GPIO.LOW)
-    GPIO.output(26,  GPIO.LOW)
-    GPIO.output(19,  GPIO.LOW)
-    GPIO.output(23,  GPIO.LOW)
-    GPIO.output(24,  GPIO.LOW)
+    GPIO.output(pins, GPIO.LOW)
 
 
 GPIO.setmode(GPIO.BCM)
