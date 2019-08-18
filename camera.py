@@ -4,13 +4,16 @@ import cv2
 class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
-    
+        self.flag = self.video.set(cv2.CAP_PROP_FPS, 10)
+        self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+        self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
     def __del__(self):
         self.video.release()
     
     def get_frame(self):
         success, image = self.video.read()
-        ret, jpeg = cv2.imencode('.jpg', image)
+        grayFrame = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        ret, jpeg = cv2.imencode('.jpg', grayFrame)
         return jpeg.tobytes()
 
 app = Flask(__name__)
