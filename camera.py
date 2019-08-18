@@ -6,6 +6,7 @@ try:
     import cv2
 except:
     sys.path.insert(0, "/opt/ros/kinetic/lib/python2.7/dist-packages/")
+    import cv2
 import socket
 import logging
 import time
