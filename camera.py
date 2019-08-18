@@ -13,7 +13,10 @@ class VideoCamera(object):
     def get_frame(self):
         success, image = self.video.read()
         # grayFrame = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        ret, jpeg = cv2.imencode('.jpg', image)
+        if success:
+            ret, jpeg = cv2.imencode('.jpg', image)
+        else:
+            jpeg = None
         return jpeg.tobytes()
 
 app = Flask(__name__)
