@@ -48,7 +48,7 @@ def back(barcode):
 
     headers = {'content-type': 'text/xml'}
 
-    file_name = "./templates/given.xml"
+    file_name = datafolder + "templates/given.xml"
 
     with open(file_name, "r") as file:
         req = file.read()
@@ -69,7 +69,7 @@ def given(barcode):
 
     headers = {'content-type': 'text/xml'}
 
-    file_name = "./templates/given.xml"
+    file_name = datafolder + "templates/given.xml"
 
     with open(file_name, "r") as file:
         req = file.read()
@@ -221,7 +221,7 @@ def income(barcode):
 
     headers = {'content-type': 'text/xml'}
 
-    file_name = "./templates/INCOME.xml"
+    file_name = datafolder + "templates/INCOME.xml"
 
     with open(file_name, "r") as file:
         req = file.read()

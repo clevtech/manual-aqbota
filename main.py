@@ -24,7 +24,7 @@ stop()
 
 lock = threading.Lock()
 last_command = datetime.datetime.now()
-pause = 400000
+pause = 200000
 
 
 logging.basicConfig(
