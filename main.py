@@ -15,7 +15,7 @@ def stop():
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-pins = [27,17,19,26]
+pins = [27,17,26,19]
 GPIO.setup(pins, GPIO.OUT)
 GPIO.output(pins, GPIO.HIGH)
 GPIO.setup([23,24], GPIO.OUT)
@@ -38,26 +38,26 @@ def move(dir):
         logging.info("Moving forward")
         GPIO.output(17, GPIO.HIGH)
         GPIO.output(27, GPIO.LOW)
-        GPIO.output(19, GPIO.HIGH)
-        GPIO.output(26, GPIO.LOW)
+        GPIO.output(26, GPIO.HIGH)
+        GPIO.output(19, GPIO.LOW)
     elif dir == "s":
         logging.info("Moving backward")
         GPIO.output(27, GPIO.HIGH)
         GPIO.output(17, GPIO.LOW)
-        GPIO.output(26, GPIO.HIGH)
-        GPIO.output(19, GPIO.LOW)
-    elif dir == "a":
-        logging.info("Turning right")
         GPIO.output(19, GPIO.HIGH)
         GPIO.output(26, GPIO.LOW)
+    elif dir == "d":
+        logging.info("Turning right")
+        GPIO.output(26, GPIO.HIGH)
+        GPIO.output(19, GPIO.LOW)
         GPIO.output(27, GPIO.HIGH)
         GPIO.output(17, GPIO.LOW)
-    elif dir == "d":
+    elif dir == "a":
         logging.info("Turning left")
         GPIO.output(17, GPIO.HIGH)
         GPIO.output(27, GPIO.LOW)
-        GPIO.output(26, GPIO.HIGH)
-        GPIO.output(19, GPIO.LOW)
+        GPIO.output(19, GPIO.HIGH)
+        GPIO.output(26, GPIO.LOW)
     elif dir == "o":
         logging.info("Open door")
         GPIO.output(23, GPIO.LOW)
