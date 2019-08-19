@@ -10,16 +10,16 @@ import RPi.GPIO as GPIO
 
 def stop():
     logging.info("Stopping all motors")
-    GPIO.output(pins, GPIO.LOW)
+    GPIO.output(pins, GPIO.HIGH)
 
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-pins = [27,17,19,26,23]
+pins = [27,17,19,26]
 GPIO.setup(pins, GPIO.OUT)
 GPIO.output(pins, GPIO.HIGH)
-GPIO.setup([24], GPIO.OUT)
-GPIO.output([24], GPIO.HIGH)
+GPIO.setup([23,24], GPIO.OUT)
+GPIO.output([23,24], GPIO.HIGH)
 stop()
 
 lock = threading.Lock()
@@ -60,11 +60,16 @@ def move(dir):
         GPIO.output(19, GPIO.LOW)
     elif dir == "o":
         logging.info("Open door")
-        GPIO.output(24, GPIO.LOW)
+        GPIO.output(23, GPIO.LOW)
         time.sleep(1)
-        GPIO.output(24, GPIO.HIGH)
+        GPIO.output(23, GPIO.HIGH)
     elif dir == "k":
         stop()
+    elif dir == "f":
+        logging.info("Stop all")
+        GPIO.output(24, GPIO.LOW)
+        time.sleep(3)
+        GPIO.output(24, GPIO.HIGH)
     # elif dir == "l":
     # logging.info("Light up")
     # elif dir == "k":
