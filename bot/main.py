@@ -206,7 +206,7 @@ def pus_data(barcode):
         with open(datafolder + "db/box.json", 'w') as database:
             data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None}
             json.dump(data, database)
-        markup.add(KeyboardButton('Открыть крышку'),
+        markup.add(KeyboardButton('Посылка в роботе'),
                                 KeyboardButton("Отмена"))
         bot.send_message(adminID, responce, reply_markup=markup)
     else:
@@ -284,7 +284,7 @@ def main_messages(message):
                 send_main_menu()
             else:
                 bot.send_message(godID, "Положила в робота посылку.")
-                responce = "Вывезите меня, пожалуйста, на точку отправки и потом выберите направление."
+                responce = "Выберите направление."
                 markup = ReplyKeyboardMarkup()
                 markup.row_width = 1
                 markup.add(KeyboardButton('Направление: Astana Hub'), \
