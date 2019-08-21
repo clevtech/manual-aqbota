@@ -11,13 +11,10 @@ chown naboo camera.py
 chown naboo main.py
 chmod 777 main.py
 chmod 777 camera.py
+sudo systemctl daemon-reload
 echo "Done chown and chmod"
 sudo service flask start
 sudo service flask enable
 sudo service control start
 sudo service control enable
 echo "Started services"
-echo "Flask status:"
-sudo service flask status
-echo "Control status:"
-sudo service control status
