@@ -200,7 +200,7 @@ def pus_data(barcode):
 
     ids = find_user(log["phone"])
     if ids:
-        responce = "Этот пользователь зарегистрирован в нашей системе. Нажмите Открыть, когда будете готовы."
+        responce = "Этот пользователь зарегистрирован в нашей системе. Нажмите Открыть в интерфейсе робота."
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         with open(datafolder + "db/box.json", 'w') as database:
@@ -274,7 +274,7 @@ def main_messages(message):
         bot.send_message(godID, "Начал проверку ШПИ: " + message.text)
         pus_data(message.text)
 
-    elif message.text == "Открыть крышку" and str(message.chat.id) == str(adminID):
+    elif message.text == "Посылка в роботе" and str(message.chat.id) == str(adminID):
         bot.send_message(adminID, "Провожу процесс загрузки посылки.")
         with open(datafolder + "db/box.json", 'r') as ff:
             datastore = json.load(ff)
@@ -283,7 +283,7 @@ def main_messages(message):
                 bot.send_message(adminID, "ПУС отправил следующую ошибку: " + info)
                 send_main_menu()
             else:
-                bot.send_message(godID, "Открой крышку.")
+                bot.send_message(godID, "Положила в робота посылку.")
                 responce = "Вывезите меня, пожалуйста, на точку отправки и потом выберите направление."
                 markup = ReplyKeyboardMarkup()
                 markup.row_width = 1

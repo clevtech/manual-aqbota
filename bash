@@ -1,0 +1,9 @@
+alias connectbot='sshpass -p 'The2ndlaw' ssh naboo@rpi3 -p 1994'
+alias controlbot='python3 ~/manual-aqbota/client.py'
+alias checkbot='ping6 rpi3'
+alias botflask="connectbot 'echo The2ndlaw | sudo -S service flask status'"
+alias botcontrol="connectbot 'echo The2ndlaw | sudo -S service control status'"
+alias restartbot="connectbot 'echo The2ndlaw |sudo -S service control restart && sudo service flask restart'"
+alias helpbot="~/manual-aqbota/commands.sh"
+alias wifioffbot="echo The2ndlaw | sudo -S ifconfig wlxf4f26d158b1b down"
+alias wifionbot="echo The2ndlaw | sudo -S ifconfig wlxf4f26d158b1b up"
