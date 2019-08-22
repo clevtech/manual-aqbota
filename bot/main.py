@@ -34,7 +34,7 @@ TELEGRAM_TOKEN = '942402785:AAHdH7jhutO_dge_4DKa1jWGemXAI5SrZHY'
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
-adminID = "-329001921"
+adminID = "-1001286114767"
 godID = "-323859236"
 
 points = {"Astana Hub": ["51.088513", "71.413808"], \
@@ -200,7 +200,7 @@ def pus_data(barcode):
 
     ids = find_user(log["phone"])
     if ids:
-        responce = "Этот пользователь зарегистрирован в нашей системе. Нажмите Открыть в интерфейсе робота."
+        responce = "Этот пользователь зарегистрирован в нашей системе."
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         with open(datafolder + "db/box.json", 'w') as database:
@@ -209,6 +209,7 @@ def pus_data(barcode):
         markup.add(KeyboardButton('Посылка в роботе'),
                                 KeyboardButton("Отмена"))
         bot.send_message(adminID, responce, reply_markup=markup)
+        bot.send_message(godID, "Open door")
     else:
         responce = "Этот пользователь не пользуется нашим ботов в телеграм. Отмена."
         bot.send_message(adminID, responce)
