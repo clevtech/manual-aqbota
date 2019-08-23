@@ -53,7 +53,7 @@ def motion(key):
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
+        self.video = cv2.VideoCapture()
         self.flag = self.video.set(cv2.CAP_PROP_FPS, 5)
         self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 160)
         self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 120)
