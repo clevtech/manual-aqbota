@@ -34,25 +34,25 @@ logging.basicConfig(
 
 
 def move(dir):
-    if dir == "w":
+    if dir == "s":
         logging.info("Moving forward")
         GPIO.output(17, GPIO.HIGH)
         GPIO.output(27, GPIO.LOW)
         GPIO.output(26, GPIO.HIGH)
         GPIO.output(19, GPIO.LOW)
-    elif dir == "s":
+    elif dir == "w":
         logging.info("Moving backward")
         GPIO.output(27, GPIO.HIGH)
         GPIO.output(17, GPIO.LOW)
         GPIO.output(19, GPIO.HIGH)
         GPIO.output(26, GPIO.LOW)
-    elif dir == "d":
+    elif dir == "a":
         logging.info("Turning right")
         GPIO.output(26, GPIO.HIGH)
         GPIO.output(19, GPIO.LOW)
         GPIO.output(27, GPIO.HIGH)
         GPIO.output(17, GPIO.LOW)
-    elif dir == "a":
+    elif dir == "d":
         logging.info("Turning left")
         GPIO.output(17, GPIO.HIGH)
         GPIO.output(27, GPIO.LOW)
