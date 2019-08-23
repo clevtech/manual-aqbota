@@ -65,9 +65,10 @@ class VideoCamera(object):
         # grayFrame = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         if success:
             ret, jpeg = cv2.imencode('.jpg', image)
+            jpeg = jpeg.tobytes()
         else:
             jpeg = "none"
-        return jpeg.tobytes()
+        return jpeg
 
 app = Flask(__name__)
 sock = init_client()
