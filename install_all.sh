@@ -6,4 +6,4 @@ sudo mv prettyping /usr/local/bin
 sudo chmod +x /usr/local/bin/prettyping
 cat bashes.sh >> ~/.bashrc
 source ~/.bashrc
-echo "Run source ~/.bashrc"
+echo "Run source ~/.bashrc !!!"
