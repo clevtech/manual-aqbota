@@ -1,0 +1,17 @@
+{
+    "name": "Aqbota Control",
+    "short_name": "Aqbota",
+    "description": "Aqbota Control Web App",
+    "theme_color": "transparent",
+    "background_color": "transparent",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "images/logo.png",
+        "type": "image/png"
+      }
+    ]
+  }

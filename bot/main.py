@@ -22,6 +22,7 @@ from pathlib import Path
 import glob
 import logging
 import threading
+from flask import Flask, render_template, request, Markup, jsonify
 
 
 logging.basicConfig(
@@ -455,12 +456,28 @@ def botting():
     send_main_menu()
     bot.polling(none_stop=True)
 
+app = Flask(__name__)
 
-def server():
-    logging.info("Starting server")
-    print("Fuck is this?")
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == "POST":
+        passcodenew = request.form['passcode']
+        with open(datafolder + "db/box.json", 'r') as ff:
+            datastore = json.load(ff)
+            pincode = datastore["pin"]
+            if pincode == passcodenew:
+                alert = "Не забудьте закрыть крышку, пожалуйста."
+                return render_template(
+                    "index.html", **locals())
+            else:
+                alert = "Вы ввели неправильный пароль"
+                return render_template(
+                    "index.html", **locals())
+    alert("Введите пароль из смс, пожалуйста")
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
-    bot_thread = threading.Thread(target=botting)
-    server()
+    BOT = threading.Thread(target=botting)
+    app.run(host='::', debug=True)
