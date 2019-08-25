@@ -458,8 +458,9 @@ def botting():
 
 def server():
     logging.info("Starting server")
+    print("Fuck is this?")
 
 
 if __name__ == "__main__":
     bot_thread = threading.Thread(target=botting)
-    quart_thread = threading.Thread(target=server)
+    server()
