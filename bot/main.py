@@ -21,11 +21,12 @@ import os
 from pathlib import Path
 import glob
 import logging
+import threading
 
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format='[%(asctime)-15s]: %(message)s'
+    format='[%(asctime)-15s] by %(threadName)s: %(message)s'
 )
 
 datafolder = os.path.abspath(__file__).split("main.py")[0]
@@ -40,6 +41,53 @@ godID = "-323859236"
 points = {"Astana Hub": ["51.088513", "71.413808"], \
     "Mega Silkway": ["51.088769" ,"71.411976"], \
         "AIFC": ["51.087676", "71.414830"]}
+
+
+def pass_create():
+    passes = ["0605", "1106", "1287"]
+    pin = sample(passes, 1)
+    return pin
+
+
+def send_sms(data):
+    url = "http://92.46.190.22:8080/smsgate/?wsdl"
+    # url = "http://92.46.190.22:8080/altsmsgate/altsmsgate.wsdl"
+    headers = {'content-type': 'text/xml'}
+    # file_name = "./templates/sms.xml"
+    # text = "Ваша посылка [barcode] передана роботу-курьеру на хранение, " \
+    #        "в ближайшее время ожидайте доставку по адресу [place]"
+    # body = "<sch:Sms>" \
+    #         "<sch:SmsText>[text]</sch:SmsText>" \
+    #         "<sch:TelegramText>[text]</sch:TelegramText>" \
+    #         "<sch:PostKzText>[text]</sch:PostKzText>" \
+    #         "<sch:PhoneNumber>[phone]</sch:PhoneNumber>" \
+    #         "</sch:Sms>"
+
+    file_name = "./templates/sms_new.xml"
+
+    text = "Vam postupila posylka [barcode] " \
+           "peredano robot-kyrer: [place]" \
+           "Kod dostupa [pin]. Vremya ozhidaniya: [time]"
+
+    body = "<element><phoneNumber>[phone]</phoneNumber><message>[text]</message></element>"
+
+    with open(file_name, "r") as file:
+        req = file.read()
+
+    time = (datetime.datetime.now() + datetime.timedelta(minutes=30)).strftime("%H:%M")
+
+    text0 = text
+    # data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
+    text1 = text0.replace("[time]", time) \
+        .replace("[pin]", data["pin"]).replace("[place]", data['address']).replace("[barcode]", data["spi"])
+    body2 = body.replace("[text]", text1).replace("[phone]", data["phone"])
+
+    request = req.replace("[body]", body2)
+    response = send_post(url, data=request.replace("\n", "").encode('utf-8'), headers=headers)
+    try:
+        logging.info(response)
+    except:
+        logging.error(response)
 
 
 def back(barcode):
@@ -153,12 +201,12 @@ def pus_data(barcode):
 
     response = send_post(url, data=req.replace("\n", "").encode('utf-8'), headers=headers)
     status = re.findall("<ResponseText>(.*?)</ResponseText>", str(response.content.decode("utf-8")))[0]
-    
+
     if status != "Success":
         logging.warning("There is no such payload: " + barcode)
         responce = "Проверил по ШПИ №" + barcode + \
         ". Вышла ошибка: " + status + "."
-    
+
         bot.send_message(adminID, responce)
         send_main_menu()
         return False
@@ -171,7 +219,7 @@ def pus_data(barcode):
     }
     responce = "Проверил адресата " + log["client"] + " по ШПИ №" + log["barcode"] + \
         " с номером " + log["phone"] + ". Проверяю наложный платеж, пожалуйста, подождите."
-    
+
     bot.send_message(adminID, responce)
 
     with open(file_name2, "r") as file:
@@ -199,21 +247,23 @@ def pus_data(barcode):
         return False
 
     ids = find_user(log["phone"])
+    data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
     if ids:
-        responce = "Этот пользователь зарегистрирован в нашей системе."
+        responce = "Этот пользователь зарегистрирован в нашей системе. Использую телеграмм интерфейс."
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         with open(datafolder + "db/box.json", 'w') as database:
-            data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None}
             json.dump(data, database)
         markup.add(KeyboardButton('Посылка в роботе'),
                                 KeyboardButton("Отмена"))
         bot.send_message(adminID, responce, reply_markup=markup)
-        bot.send_message(godID, "Open door")
     else:
-        responce = "Этот пользователь не пользуется нашим ботов в телеграм. Отмена."
+        responce = "Этот пользователь не пользуется нашим ботов в телеграм. Использую классический интерфейс. Отправляю СМС, ждите."
         bot.send_message(adminID, responce)
-        send_main_menu()
+        send_sms(data)
+        markup.add(KeyboardButton('Посылка в роботе'),
+                                KeyboardButton("Отмена"))
+        bot.send_message(adminID, responce, reply_markup=markup)
 
 
 def income(barcode):
@@ -254,9 +304,9 @@ def send_welcome(message):
 @bot.message_handler(func=lambda message: True)
 def main_messages(message):
     if message.text == "Нет":
-        bot.reply_to(message, "Хорошо, если вдруг передумаете, нажмите на кнопку 'Да'", 
+        bot.reply_to(message, "Хорошо, если вдруг передумаете, нажмите на кнопку 'Да'",
         reply_markup=gen_markup())
-    
+
     elif message.text == "Я не приду":
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
@@ -267,10 +317,10 @@ def main_messages(message):
 
     elif message.text == "Проверить посылку" and str(message.chat.id) == str(adminID):
         bot.send_message(adminID, "Введите ШПИ в формате 'KZ112345678KZ', пожалуйста.")
-        
+
     elif message.text == "Отмена" and str(message.chat.id) == str(adminID):
         send_main_menu()
-    
+
     elif message.text[:2] == "KZ" and str(message.chat.id) == str(adminID):
         bot.send_message(godID, "Начал проверку ШПИ: " + message.text)
         pus_data(message.text)
@@ -296,7 +346,7 @@ def main_messages(message):
     elif message.text == "Спать" and str(message.chat.id) == str(adminID):
         bot.send_message(godID, "Отправлен спать")
         send_main_menu()
-    
+
     elif message.text[:13] == "Направление: " and str(message.chat.id) == str(adminID):
         address = message.text[13:]
         with open(datafolder + "db/box.json", 'r') as ff:
@@ -314,7 +364,7 @@ def main_messages(message):
                 datastore["spi"] + "]. Через 15 минут ожидайте меня по адресу: " + \
                     datastore["address"] + ".")
             bot.send_location(datastore["id"], points[address][0], points[address][1])
-    
+
     elif message.text == "Получить посылку":
         with open(datafolder + "db/box.json", 'r') as ff:
             datastore = json.load(ff)
@@ -331,27 +381,27 @@ def main_messages(message):
             markup.row_width = 1
             markup.add(KeyboardButton('GOD: Домой'))
             bot.send_message(godID, "Открой крышку. Потом езжай домой.", reply_markup=markup)
-    
+
     elif message.text == "GOD: Домой" and str(message.chat.id) == str(godID):
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         markup.add(KeyboardButton('GOD: Пустой'), KeyboardButton('GOD: Не пустой'))
         bot.send_message(godID, "Приехал, нажми.", reply_markup=markup)
-    
+
     elif message.text == "GOD: Пустой" and str(message.chat.id) == str(godID):
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         markup.add(KeyboardButton('Спать'))
         bot.send_message(adminID, "Вернулась домой, отдала посылку. Хочу спать.", reply_markup=markup)
         bot.send_message(godID, "Ок, иди отдыхать.")
-    
+
     elif message.text == "GOD: Не пустой" and str(message.chat.id) == str(godID):
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         markup.add(KeyboardButton('Вернуть посылку'))
         bot.send_message(adminID, "Вернулась домой, не отдала посылку.", reply_markup=markup)
         bot.send_message(godID, "Жди команды открыть дверь.")
-    
+
     elif message.text == "Вернуть посылку" and str(message.chat.id) == str(adminID):
         with open(datafolder + "db/box.json", 'r') as ff:
             datastore = json.load(ff)
@@ -359,7 +409,7 @@ def main_messages(message):
         bot.send_message(adminID, info)
         bot.send_message(godID, "Открывай")
         bot.send_message(adminID, "Открыла дверь, до свидания!")
-    
+
     elif message.text[:5] == "GOD: " and str(message.chat.id) == str(godID):
         if message.text[-6:] == "Доехал":
             with open(datafolder + "db/box.json", 'r') as ff:
@@ -378,11 +428,11 @@ def main_messages(message):
             bot.send_message(datastore["id"], "Я приехала. \
 Буду ожидать Вас до " + waiting.strftime("%H:%M:%S") +\
 """\
-. Когда будете готовы, нажмите 'Получить посылку'. 
+. Когда будете готовы, нажмите 'Получить посылку'.
 Если у Вас не получается забрать ее, нажмите 'Я не приду'.\
 """ , reply_markup=markup)
-    
-    
+
+
 
 @bot.message_handler(content_types=['contact'])
 def handle_contact(message):
@@ -401,5 +451,15 @@ def handle_contact(message):
 """)
 
 
-send_main_menu()
-bot.polling()
+def botting():
+    send_main_menu()
+    bot.polling(none_stop=True)
+
+
+def server():
+    logging.info("Starting server")
+
+
+if __name__ == "__main__":
+    bot_thread = threading.Thread(target=botting)
+    quart_thread = threading.Thread(target=server)
