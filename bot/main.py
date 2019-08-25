@@ -480,4 +480,4 @@ def index():
 
 if __name__ == "__main__":
     BOT = threading.Thread(target=botting)
-    app.run(host='::', port=80, debug=True)
+    app.run(host='::', debug=True)
