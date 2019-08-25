@@ -481,7 +481,7 @@ def index():
 
 
 if __name__ == "__main__":
-    # BOT = threading.Thread(target=botting)
-    # BOT.start()
-    bot.polling()
+    BOT = threading.Thread(target=botting)
+    BOT.start()
+    # bot.polling()
     app.run(host='0.0.0.0', debug=True)
