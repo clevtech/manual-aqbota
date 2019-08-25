@@ -476,7 +476,7 @@ def index():
                 alert = "Вы ввели неправильный пароль"
                 return render_template(
                     "index.html", **locals())
-    alert = "Введите пароль из смс, пожалуйста")
+    alert = "Введите пароль из смс, пожалуйста"
     return render_template('index.html')
 
 
