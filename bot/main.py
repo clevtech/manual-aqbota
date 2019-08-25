@@ -455,7 +455,7 @@ def handle_contact(message):
 
 def botting():
     send_main_menu()
-    bot.polling(none_stop=True)
+    bot.polling()
 
 app = Flask(__name__)
 
@@ -481,6 +481,7 @@ def index():
 
 
 if __name__ == "__main__":
-    BOT = threading.Thread(target=botting)
-    BOT.start()
+    # BOT = threading.Thread(target=botting)
+    # BOT.start()
+    bot.polling()
     app.run(host='0.0.0.0', debug=True)
