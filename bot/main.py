@@ -23,6 +23,7 @@ import glob
 import logging
 import threading
 from flask import Flask, render_template, request, Markup, jsonify
+from flask.ext.script import Manager
 
 
 logging.basicConfig(
@@ -453,12 +454,15 @@ def handle_contact(message):
 """)
 
 
-def botting():
+@manager.command
+def runserver():
+    app.run(host='0.0.0.0', debug=True)
     send_main_menu()
     bot.polling()
 
-app = Flask(__name__)
 
+app = Flask(__name__)
+manager = Manager(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -483,5 +487,6 @@ def index():
 if __name__ == "__main__":
     # BOT = threading.Thread(target=botting)
     # BOT.start()
-    app.run(host='0.0.0.0', debug=True)
-    bot.polling()
+    # app.run(host='0.0.0.0', debug=True)
+    # bot.polling()
+    manager.run()
