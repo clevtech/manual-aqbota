@@ -23,7 +23,6 @@ import glob
 import logging
 import threading
 from flask import Flask, render_template, request, Markup, jsonify
-from flask_script import Manager
 
 
 logging.basicConfig(
@@ -454,15 +453,27 @@ def handle_contact(message):
 """)
 
 
-@manager.command
-def runserver():
-    app.run(host='0.0.0.0', debug=True)
-    send_main_menu()
-    bot.polling()
-
 
 app = Flask(__name__)
-manager = Manager(app)
+
+
+def bot_polling():
+    global bot
+    logging.info("Starting bot polling now")
+    while True:
+        try:
+            logging.info("New bot instance started")
+            bot.polling(none_stop=True, interval=BOT_INTERVAL, timeout=30)
+        except Exception as ex: #Error in polling
+            logging.error("Bot polling failed, restarting in {}sec. Error:\n{}".format(30, ex))
+            bot.stop_polling()
+            import time
+            time.sleep(30)
+        else: #Clean exit
+            bot.stop_polling()
+            logging.info("Bot polling loop finished")
+            break #End loop
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -484,9 +495,15 @@ def index():
     return render_template('index.html', **locals())
 
 
+POLLING = threading.Thread(target=bot_polling)
+POLLING.daemon = True
+POLLING.start()
+
+
 if __name__ == "__main__":
     # BOT = threading.Thread(target=botting)
     # BOT.start()
     # app.run(host='0.0.0.0', debug=True)
     # bot.polling()
-    manager.run()
+    send_main_menu()
+    app.run(host='0.0.0.0', debug=True)
