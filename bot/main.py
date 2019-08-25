@@ -463,7 +463,7 @@ def bot_polling():
     while True:
         try:
             logging.info("New bot instance started")
-            bot.polling(none_stop=True, interval=BOT_INTERVAL, timeout=30)
+            bot.polling(none_stop=True, interval=3, timeout=30)
         except Exception as ex: #Error in polling
             logging.error("Bot polling failed, restarting in {}sec. Error:\n{}".format(30, ex))
             bot.stop_polling()
