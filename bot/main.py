@@ -249,6 +249,7 @@ def pus_data(barcode):
 
     ids = find_user(log["phone"])
     data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
+    bot.send_message(godID, "PIN: " + str(log["pin"]))
     if ids:
         responce = "Этот пользователь зарегистрирован в нашей системе. Использую телеграмм интерфейс."
         markup = ReplyKeyboardMarkup()
@@ -468,13 +469,14 @@ def index():
             pincode = datastore["pin"]
             if pincode == passcodenew:
                 alert = "Не забудьте закрыть крышку, пожалуйста."
+                bot.send_message(godID, "Открывай")
                 return render_template(
                     "index.html", **locals())
             else:
                 alert = "Вы ввели неправильный пароль"
                 return render_template(
                     "index.html", **locals())
-    alert("Введите пароль из смс, пожалуйста")
+    alert = "Введите пароль из смс, пожалуйста")
     return render_template('index.html')
 
 
