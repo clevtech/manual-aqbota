@@ -23,7 +23,7 @@ import glob
 import logging
 import threading
 from flask import Flask, render_template, request, Markup, jsonify
-from flask.ext.script import Manager
+from flask_script import Manager
 
 
 logging.basicConfig(
