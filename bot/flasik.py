@@ -58,7 +58,10 @@ def index():
             logging.info("real pin is: " + str(pincode))
             if str(pincode) == str(passcodenew):
                 alert = "Не забудьте закрыть крышку, пожалуйста."
-                bot.send_message(godID, "Открывай")
+                markup = ReplyKeyboardMarkup()
+                markup.row_width = 1
+                markup.add(KeyboardButton('GOD: Домой'))
+                bot.send_message(godID, "Открой крышку. Потом езжай домой.", reply_markup=markup)
                 return render_template(
                     "index.html", **locals())
             else:
