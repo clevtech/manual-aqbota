@@ -22,7 +22,6 @@ from pathlib import Path
 import glob
 import logging
 import threading
-from flask import Flask, render_template, request, Markup, jsonify
 
 
 logging.basicConfig(
@@ -453,40 +452,5 @@ def handle_contact(message):
 """)
 
 
-
-app = Flask(__name__)
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == "POST":
-        passcodenew = request.form['passcode']
-        with open(datafolder + "db/box.json", 'r') as ff:
-            datastore = json.load(ff)
-            pincode = datastore["pin"]
-            if pincode == passcodenew:
-                alert = "Не забудьте закрыть крышку, пожалуйста."
-                bot.send_message(godID, "Открывай")
-                return render_template(
-                    "index.html", **locals())
-            else:
-                alert = "Вы ввели неправильный пароль"
-                return render_template(
-                    "index.html", **locals())
-    alert = "Введите пароль из смс, пожалуйста"
-    return render_template('index.html', **locals())
-
-
-# POLLING = threading.Thread(target=bot_polling)
-# POLLING.daemon = True
-# POLLING.start()
-
-
-if __name__ == "__main__":
-    # BOT = threading.Thread(target=botting)
-    # BOT.start()
-    # app.run(host='0.0.0.0', debug=True)
-    send_main_menu()
-    bot.polling()
-    # send_main_menu()
-    # app.run(host='0.0.0.0', debug=True)
+send_main_menu()
+bot.polling()
