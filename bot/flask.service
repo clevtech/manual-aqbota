@@ -5,7 +5,7 @@ WantedBy=multi-user.target
 [Service]
 User=aqbotakazpost
 PermissionsStartOnly=true
-ExecStart=/home/aqbotakazpost/manual-aqbota/bot/flask.py
+ExecStart=/home/aqbotakazpost/manual-aqbota/bot/flasik.py
 TimeoutSec=60
 Restart=on-failure
 RuntimeDirectoryMode=755
