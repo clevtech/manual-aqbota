@@ -54,7 +54,7 @@ def index():
         logging.info("given pin from web is: " + str(passcodenew))
         with open(datafolder + "db/box.json", 'r') as ff:
             datastore = json.load(ff)
-            pincode = datastore["pin"]
+            pincode = datastore["pin"][0]
             logging.info("real pin is: " + str(pincode))
             if str(pincode) == str(passcodenew):
                 alert = "Не забудьте закрыть крышку, пожалуйста."
