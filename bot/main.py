@@ -305,9 +305,9 @@ def send_welcome(message):
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
 @bot.message_handler(func=lambda message: True)
 def main_messages(message):
+    logging.info("New message: " + str(message.text) + " from: " + str(message.chat.id))
     if message.text == "Нет":
-        bot.reply_to(message, "Хорошо, если вдруг передумаете, нажмите на кнопку 'Да'",
-        reply_markup=gen_markup())
+        bot.reply_to(message, "Хорошо, если вдруг передумаете, нажмите на кнопку 'Да'", reply_markup=gen_markup())
 
     elif message.text == "Я не приду":
         markup = ReplyKeyboardMarkup()
