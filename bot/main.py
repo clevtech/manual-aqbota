@@ -248,7 +248,7 @@ def pus_data(barcode):
 
     ids = find_user(log["phone"])
     data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
-    bot.send_message(godID, "PIN: " + str(log["pin"]))
+    bot.send_message(godID, "PIN: " + str(data["pin"]))
     if ids:
         responce = "Этот пользователь зарегистрирован в нашей системе. Использую телеграмм интерфейс."
         markup = ReplyKeyboardMarkup()
