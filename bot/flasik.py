@@ -30,7 +30,7 @@ logging.basicConfig(
     format='[%(asctime)-15s] by %(threadName)s: %(message)s'
 )
 
-datafolder = os.path.abspath(__file__).split("main.py")[0]
+datafolder = os.path.abspath(__file__).split("flasik.py")[0]
 
 TELEGRAM_TOKEN = '942402785:AAHdH7jhutO_dge_4DKa1jWGemXAI5SrZHY'
 
