@@ -67,7 +67,7 @@ def send_sms(data):
     file_name = datafolder + "/templates/sms_new.xml"
 
     text = "Vam postupila posylka [barcode] " \
-           "peredano robot-kyrer: [place]" \
+           "peredano robot-kyrer: [place]. " \
            "Kod dostupa [pin]. Vremya ozhidaniya: [time]"
 
     body = "<element><phoneNumber>[phone]</phoneNumber><message>[text]</message></element>"
@@ -75,7 +75,7 @@ def send_sms(data):
     with open(file_name, "r") as file:
         req = file.read()
 
-    time = (datetime.datetime.now() + datetime.timedelta(minutes=30)).strftime("%H:%M")
+    time = (datetime.datetime.now() + datetime.timedelta(minutes=390)).strftime("%H:%M")
 
     text0 = text
     # data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
@@ -87,6 +87,8 @@ def send_sms(data):
     logging.info("Request is: " + str(request))
     response = send_post(url, data=request.replace("\n", "").encode('utf-8'), headers=headers)
     logging.info(response.content)
+    smsID = re.findall("<smsId>(.*?)</smsId>", str(response.content.decode("utf-8")))[0]
+    bot.send_message(adminID, "СМС отправлено с ID: " + str(smsID) + ".")
 
 
 def back(barcode):
