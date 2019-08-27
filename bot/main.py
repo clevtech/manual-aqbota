@@ -84,11 +84,9 @@ def send_sms(data):
     body2 = body.replace("[text]", text1).replace("[phone]", data["phone"])
 
     request = req.replace("[body]", body2)
+    logging.info("Request is: " + str(request))
     response = send_post(url, data=request.replace("\n", "").encode('utf-8'), headers=headers)
-    try:
-        logging.info(response)
-    except:
-        logging.error(response)
+    logging.info(response.content)
 
 
 def back(barcode):
