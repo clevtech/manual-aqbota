@@ -432,17 +432,20 @@ def main_messages(message):
             bot.send_message(godID, "Ок, жди 30 минут. \
                 Если никто не придет, запускай дорогу домой", reply_markup=markup)
             bot.send_message(adminID, "Доехала. Жду 30 минут клиента.")
-            bot.send_sticker(datastore["id"], "CAADAgADDwEAAtrHBgABtT_ofg7UMK4WBA")
-            markup = ReplyKeyboardMarkup()
-            markup.row_width = 1
-            markup.add(KeyboardButton('Получить посылку'), KeyboardButton("Я не приду"))
-            waiting = datetime.datetime.now() + datetime.timedelta(minutes=30)
-            bot.send_message(datastore["id"], "Я приехала. \
-Буду ожидать Вас до " + waiting.strftime("%H:%M:%S") +\
-"""\
-. Когда будете готовы, нажмите 'Получить посылку'.
-Если у Вас не получается забрать ее, нажмите 'Я не приду'.\
-""" , reply_markup=markup)
+            try:
+                bot.send_sticker(datastore["id"], "CAADAgADDwEAAtrHBgABtT_ofg7UMK4WBA")
+                markup = ReplyKeyboardMarkup()
+                markup.row_width = 1
+                markup.add(KeyboardButton('Получить посылку'), KeyboardButton("Я не приду"))
+                waiting = datetime.datetime.now() + datetime.timedelta(minutes=30)
+                bot.send_message(datastore["id"], "Я приехала. \
+    Буду ожидать Вас до " + waiting.strftime("%H:%M:%S") +\
+    """\
+    . Когда будете готовы, нажмите 'Получить посылку'.
+    Если у Вас не получается забрать ее, нажмите 'Я не приду'.\
+    """ , reply_markup=markup)
+            except:
+                logging.error("Old type user.")
 
 
 
