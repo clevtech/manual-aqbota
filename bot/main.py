@@ -260,9 +260,9 @@ def pus_data(barcode):
                                 KeyboardButton("Отмена"))
         bot.send_message(adminID, responce, reply_markup=markup)
     else:
-        responce = "Этот пользователь не пользуется нашим ботов в телеграм. Использую классический интерфейс. Отправляю СМС, ждите."
+        responce = "Этот пользователь не пользуется нашим ботов в телеграм. Использую классический интерфейс."
         bot.send_message(adminID, responce)
-        send_sms(data)
+        # send_sms(data)
         markup.add(KeyboardButton('Посылка в роботе'),
                                 KeyboardButton("Отмена"))
         bot.send_message(adminID, responce, reply_markup=markup)
@@ -361,11 +361,15 @@ def main_messages(message):
             markup.add(KeyboardButton('GOD: Доехал'), KeyboardButton("GOD: Трабл на дороге"))
             bot.send_message(godID, "Выезжай на точку: " + address, reply_markup=markup)
             bot.send_message(adminID, "Я направляюсь на точку: " + address)
-            bot.send_sticker(datastore["id"], "CAADAgADEwEAAtrHBgABeuVsifwYcG4WBA")
-            bot.send_message(datastore["id"], "Я выехала доставить Вам посылку [ШПИ №" + \
-                datastore["spi"] + "]. Через 15 минут ожидайте меня по адресу: " + \
-                    datastore["address"] + ".")
-            bot.send_location(datastore["id"], points[address][0], points[address][1])
+            if datastore["id"]:
+                bot.send_sticker(datastore["id"], "CAADAgADEwEAAtrHBgABeuVsifwYcG4WBA")
+                bot.send_message(datastore["id"], "Я выехала доставить Вам посылку [ШПИ №" + \
+                    datastore["spi"] + "]. Через 15 минут ожидайте меня по адресу: " + \
+                        datastore["address"] + ".")
+                bot.send_location(datastore["id"], points[address][0], points[address][1])
+            else:
+                send_sms(datastore)
+
 
     elif message.text == "Получить посылку":
         with open(datafolder + "db/box.json", 'r') as ff:
