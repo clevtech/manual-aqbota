@@ -79,7 +79,7 @@ def send_sms(data):
     text0 = text
     # data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
     text1 = text0.replace("[time]", time) \
-        .replace("[pin]", data["pin"]).replace("[place]", data['address']).replace("[barcode]", data["spi"])
+        .replace("[pin]", data["pin"][0]).replace("[place]", data['address']).replace("[barcode]", data["spi"])
     body2 = body.replace("[text]", text1).replace("[phone]", data["phone"])
 
     request = req.replace("[body]", body2)
@@ -248,7 +248,7 @@ def pus_data(barcode):
 
     ids = find_user(log["phone"])
     data = {'id': ids, 'name': log["client"], 'spi': barcode, 'address': None, 'start': None, 'phone': log["phone"], 'pin': pass_create()}
-    bot.send_message(godID, "PIN: " + str(data["pin"]))
+    bot.send_message(godID, "PIN: " + str(data["pin"][0]))
     if ids:
         responce = "Этот пользователь зарегистрирован в нашей системе. Использую телеграмм интерфейс."
         markup = ReplyKeyboardMarkup()
