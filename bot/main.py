@@ -263,6 +263,8 @@ def pus_data(barcode):
         responce = "Этот пользователь не пользуется нашим ботов в телеграм. Использую классический интерфейс."
         bot.send_message(adminID, responce)
         # send_sms(data)
+        markup = ReplyKeyboardMarkup()
+        markup.row_width = 1
         markup.add(KeyboardButton('Посылка в роботе'),
                                 KeyboardButton("Отмена"))
         bot.send_message(adminID, responce, reply_markup=markup)
