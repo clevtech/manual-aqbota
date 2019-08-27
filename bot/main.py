@@ -400,6 +400,8 @@ def main_messages(message):
         bot.send_message(godID, "Приехал, нажми.", reply_markup=markup)
 
     elif message.text == "GOD: Пустой" and str(message.chat.id) == str(godID):
+        with open(datafolder + "db/box.json", 'r') as ff:
+            datastore = json.load(ff)
         status, info = given(datastore["spi"])
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
