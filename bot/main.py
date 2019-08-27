@@ -50,6 +50,7 @@ def pass_create():
 
 
 def send_sms(data):
+    logging.info(data)
     url = "http://92.46.190.22:8080/smsgate/?wsdl"
     # url = "http://92.46.190.22:8080/altsmsgate/altsmsgate.wsdl"
     headers = {'content-type': 'text/xml'}
