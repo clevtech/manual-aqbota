@@ -358,7 +358,7 @@ def main_messages(message):
         with open(datafolder + "db/box.json", 'r') as ff:
             datastore = json.load(ff)
             datastore["address"] = address
-            logging.info("Datastore is: " + datastore)
+            logging.info("Datastore is: " + str(datastore))
             with open(datafolder + "db/box.json", 'w') as ff2:
                 json.dump(datastore, ff2)
             markup = ReplyKeyboardMarkup()
