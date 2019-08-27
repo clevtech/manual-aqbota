@@ -262,6 +262,8 @@ def pus_data(barcode):
     else:
         responce = "Этот пользователь не пользуется нашим ботов в телеграм. Использую классический интерфейс."
         bot.send_message(adminID, responce)
+        with open(datafolder + "db/box.json", 'w') as database:
+            json.dump(data, database)
         # send_sms(data)
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
@@ -356,6 +358,7 @@ def main_messages(message):
         with open(datafolder + "db/box.json", 'r') as ff:
             datastore = json.load(ff)
             datastore["address"] = address
+            logging.info("Datastore is: " + datastore)
             with open(datafolder + "db/box.json", 'w') as ff2:
                 json.dump(datastore, ff2)
             markup = ReplyKeyboardMarkup()
