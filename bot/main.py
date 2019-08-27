@@ -432,7 +432,7 @@ def main_messages(message):
             bot.send_message(godID, "Ок, жди 30 минут. \
                 Если никто не придет, запускай дорогу домой", reply_markup=markup)
             bot.send_message(adminID, "Доехала. Жду 30 минут клиента.")
-            try:
+            if datastore["id"]:
                 bot.send_sticker(datastore["id"], "CAADAgADDwEAAtrHBgABtT_ofg7UMK4WBA")
                 markup = ReplyKeyboardMarkup()
                 markup.row_width = 1
@@ -444,8 +444,8 @@ def main_messages(message):
     . Когда будете готовы, нажмите 'Получить посылку'.
     Если у Вас не получается забрать ее, нажмите 'Я не приду'.\
     """ , reply_markup=markup)
-            except:
-                logging.error("Old type user.")
+            else:
+                logging.error("Old type")
 
 
 
