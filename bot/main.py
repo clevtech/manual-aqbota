@@ -63,7 +63,7 @@ def send_sms(data):
     #         "<sch:PhoneNumber>[phone]</sch:PhoneNumber>" \
     #         "</sch:Sms>"
 
-    file_name = "./templates/sms_new.xml"
+    file_name = datafolder + "/templates/sms_new.xml"
 
     text = "Vam postupila posylka [barcode] " \
            "peredano robot-kyrer: [place]" \
@@ -390,6 +390,7 @@ def main_messages(message):
         bot.send_message(godID, "Приехал, нажми.", reply_markup=markup)
 
     elif message.text == "GOD: Пустой" and str(message.chat.id) == str(godID):
+        status, info = given(datastore["spi"])
         markup = ReplyKeyboardMarkup()
         markup.row_width = 1
         markup.add(KeyboardButton('Спать'))
